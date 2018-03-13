@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en_US">
+<script src="angular.min.js"></script>
+<body ng-app="myApp">
+<style>
+body {
+background-color:	#ffffff ;
+  font-family: 'Nunito', sans-serif;
+  color: #384047;
+}
+h1 {
+  margin: 0 0 30px 0;
+  text-align: center;
+
+}
+form
+{
+ max-width: 300px;
+  margin: 10px auto;
+  padding: 10px 20px;
+  background: #E2F4F9;
+  border-radius: 20px;
+}
+button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+}
+button:hover {
+    opacity: 0.8;
+}
+</style>
+<div  ng-controller="myCtrl" ng-show="login">
+<form>
+      <label for="uname"><b>Username</b></label>
+      <input ng-model="username" placeholder="Enter Username" <required>
+<br>
+<br>
+      <label for="psw"><b>Password</b></label>
+      <input ng-model="psw" placeholder="Enter Password" required>
+<br>
+<br>    
+{{message}}
+    <button ng-click="submit()">Login</button>
+</form>
+</div>
+<form>
+<div id="s" ng-controller="myctrl2" ng-show="home" class="tabcontent">
+<p>Successfully login</p>
+{{message}}
+
+<button ng-click="logout()">LogOut</button>
+</div>
+</form>
+<script>
+var app = angular.module('myApp',[]);
+app.service('vin',function(){
+	this.login=function(x,y){
+	if(x=="admin" && y=="admin1"){
+		return true
+	}
+	else
+	{
+		return false
+	}
+}
+});
+
+app.controller('myCtrl',function($scope,$rootScope,vin){
+$scope.username='';
+$scope.psw='';
+
+$rootScope.login=true;
+$rootScope.home=false;
+$scope.submit=function(){
+var check = vin.login($scope.username,$scope.psw)
+if(check==true)
+{
+	$rootScope.login=false;
+	$rootScope.home=true;
+	$rootScope.message = "Welcome to Vinesh Angular"  
+}
+else 
+{
+	$rootScope.login=true;
+	$rootScope.home=false;
+	$rootScope.message = "Invalid Credentials !!! Try "
+}
+}
+}).
+controller('myctrl2',function($scope,$rootScope){
+	$scope.username='';
+	$scope.psw='';
+	$rootScope.login=true;
+	$rootScope.home=false;
+$scope.logout=function(){
+		$rootScope.login=true;
+		$rootScope.home=false;
+}
+});
+</script>
+
+</body>
+</html>
